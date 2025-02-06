@@ -70,8 +70,6 @@ export class ChatbotComponent {
     this.chatService
       .getBotResponse({
         messages: this.messages,
-        model: "finellama",
-        stream: false,
       })
       .subscribe({
         next: (response) => {

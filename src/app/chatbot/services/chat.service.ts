@@ -12,6 +12,6 @@ export class ChatService {
 
   getBotResponse(request: ResquestDto): Observable<any> {
     
-    return this.http.post("http://localhost:11434/api/chat", request);
+    return this.http.post("http://localhost:8080/chat", request);
   }
 }
