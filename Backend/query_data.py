@@ -2,8 +2,8 @@ import argparse
 from langchain.vectorstores.chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_community.llms.ollama import Ollama
-from schemas import ChatMessage
-from get_embedding_function import get_embedding_function
+from . import schemas
+from . import get_embedding_function
 from typing import List
 import httpx
 CHROMA_PATH = "chroma"
@@ -18,9 +18,9 @@ Here is some relevant context that may help answer the question:
 Using the context above if helpful, answer the following question: {question}
 
 """
-async def query_rag(chatmessages : List[ChatMessage]):
+async def query_rag(chatmessages : List[schemas.ChatMessage]):
     # Prepare the DB.
-    embedding_function = get_embedding_function()
+    embedding_function = get_embedding_function.get_embedding_function()
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
     query_text = chatmessages[-1].content
     # Search the DB.
@@ -32,10 +32,12 @@ async def query_rag(chatmessages : List[ChatMessage]):
     # print(prompt)
     chatmessages[-1].content = prompt
     url = "http://localhost:11434/api/chat"
-    payload = {"messages": chatmessages, "model":"finellama", "stream": False}
+    payload = {"messages": [msg.model_dump() for msg in chatmessages], "model":"finellama", "stream": False}
 
     async with httpx.AsyncClient() as client:
-        response_text = await client.post(url, json=payload)
+        response = await client.post(url, json=payload, timeout=3600)
+        response_text = response.json()  # ou `response.json()` si c'est un JSON
+
 
     sources = [doc.metadata.get("id", None) for doc, _score in results]
     formatted_response = f"Response: {response_text}\nSources: {sources}"

@@ -65,12 +65,10 @@ export class ChatbotComponent {
       content: this.userInput,
       role: "user",
     });
-
+    console.log(this.messages);
     // Get and add bot response
     this.chatService
-      .getBotResponse({
-        messages: this.messages,
-      })
+      .getBotResponse(this.messages)
       .subscribe({
         next: (response) => {
           this.messages.push({
