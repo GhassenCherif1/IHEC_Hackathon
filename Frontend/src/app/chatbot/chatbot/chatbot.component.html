@@ -1,46 +1,62 @@
 <div class="chat-toggle-wrapper">
-    <button class="chat-toggle-button" (click)="toggleChat()">
-      <i
-        class="fas"
-        [class.fa-comments]="!isChatVisible"
-        [class.fa-times]="isChatVisible"
-      ></i>
-    </button>
-    <div class="popup-message">Ask IHEC BOT</div>
-  </div>
-  <div class="chat-container" [class.visible]="isChatVisible">
-    <div class="chat-header">
+  <button class="chat-toggle-button" (click)="toggleChat()">
+      <i class="fas" [class.fa-comments]="!isChatVisible" [class.fa-times]="isChatVisible"></i>
+  </button>
+  <div class="popup-message">Ask IHEC BOT</div>
+</div>
+
+<div class="chat-container" [class.visible]="isChatVisible">
+  <div class="chat-header">
       <h2>IHEC Chatbot</h2>
-    </div>
-    <div class="chat-messages" #scrollMe>
+  </div>
+
+  <div class="chat-messages" #scrollMe>
       @for (message of messages; track $index) {
-        @if(message.role != 'system') {
-      <div
-        class="message"
-        [class.user-message]="message.role == 'user'"
-        [class.bot-message]="message.role == 'assistant'"
-      >
-        
-        {{ message.content }}
-         @if(message.role == 'assistant') {
-        <button class="read-button" (click)="readText(message.content)">
-          <i class="fas fa-volume-up"></i>
-        </button>
-        }
-      </div>
-    }
+          @if(message.role != 'system') {
+              <div class="message-wrapper">
+                  <div
+                      class="message"
+                      [class.user-message]="message.role == 'user'"
+                      [class.bot-message]="message.role == 'assistant'"
+                  >
+                      {{ message.content }}
+                      @if(message.role == 'assistant') {
+                          <button class="read-button" (click)="readText(message.content)">
+                              <i class="fas fa-volume-up"></i>
+                          </button>
+                      }
+                  </div>
+
+                  <!-- Feedback buttons for bot messages -->
+                  @if (message.role == 'assistant') {
+                      <div class="message-feedback">
+                          <button class="feedback-button" 
+                                  [class.active]="message.feedback === true"
+                                  (click)="provideFeedback(message, true)">
+                              <i class="fas fa-thumbs-up"></i>
+                          </button>
+                          <button class="feedback-button"
+                                  [class.active]="message.feedback === false"
+                                  (click)="provideFeedback(message, false)">
+                              <i class="fas fa-thumbs-down"></i>
+                          </button>
+                      </div>
+                  }
+              </div>
+          }
       }
-    </div>
-    <div class="chat-input">
+  </div>
+
+  <div class="chat-input">
       <input
-        type="text"
-        [(ngModel)]="userInput"
-        (keyup.enter)="sendMessage()"
-        placeholder="Type your message..."
+          type="text"
+          [(ngModel)]="userInput"
+          (keyup.enter)="sendMessage()"
+          placeholder="Type your message..."
       />
       <button (click)="toggleVoice()" class="mic-button">
-        <i class="fas fa-microphone"></i>
+          <i class="fas fa-microphone"></i>
       </button>
       <button (click)="sendMessage()">Send</button>
-    </div>
   </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="navbar" [ngClass]="{'transparent-navbar': isHomeRoute(), 'blue-navbar': !isHomeRoute()}">
+    <img class="navbar-logo" src="assets/ihec_carthage_bleu.svg" />
+    <div class="navbar-buttons">
+        <button [routerLink]="['dashboard']" class="navbar-button">Dashboard</button>
+        <button [routerLink]="['']" class="navbar-button">Home</button>
+    </div>
+</div>

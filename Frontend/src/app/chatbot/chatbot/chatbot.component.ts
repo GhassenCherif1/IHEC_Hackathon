@@ -16,11 +16,12 @@ import { CommonModule } from "@angular/common";
 export class ChatbotComponent {
   messages: ChatMessage[] = [
     {
+      id: "system",
       role: "system",
       content:
         "You are a virtual assistant designed to guide new students at IHEC Carthage. You should provide information about academic programs, enrollment procedures, student events, campus services, and other student-related queries. The questions can be asked in either French or English, and you should respond appropriately in the language of the question.",
     },
-    { content: "Hello! How can I help you today?", role: "assistant" },
+    {id:"Hello", content: "Hello! How can I help you today?", role: "assistant" },
   ];
   userInput = "";
   isChatVisible = false;
@@ -62,6 +63,7 @@ export class ChatbotComponent {
 
     // Add user message
     this.messages.push({
+      id :Date.now().toString(),
       content: this.userInput,
       role: "user",
     });
@@ -72,6 +74,7 @@ export class ChatbotComponent {
       .subscribe({
         next: (response) => {
           this.messages.push({
+            id: Date.now().toString(),
             content: response.message.content,
             role: response.message.role,
           });
@@ -92,4 +95,22 @@ export class ChatbotComponent {
   stopReading(): void {
     this.ttsService.stop();
   }
+  provideFeedback(message: ChatMessage, liked: boolean) {
+    if (message.feedback !== undefined) return; // Prevent multiple feedback
+
+    message.feedback = liked;
+    
+    // Find the user message that preceded this bot response
+    const messageIndex = this.messages.findIndex(m => m.id === message.id);
+    const userMessage = messageIndex > 0 ? this.messages[messageIndex - 1].content : '';
+
+    this.chatService.addFeedback({
+      messageId: message.id,
+      message: userMessage,
+      response: message.content,
+      liked: liked,
+      timestamp: new Date()
+    });
+  }
+  
 }

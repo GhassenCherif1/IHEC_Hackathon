@@ -1,0 +1,59 @@
+<div class="dashboard">
+      <div class="stats-container">
+        <h2>Feedback Dashboard</h2>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Responses</h3>
+            <p>{{ stats.total }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Likes</h3>
+            <p>{{ stats.likes }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Dislikes</h3>
+            <p>{{ stats.dislikes }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Satisfaction Rate</h3>
+            <p>{{ stats.likePercentage.toFixed(1) }}%</p>
+          </div>
+        </div>
+
+        <div class="charts-container">
+          <div class="chart-wrapper">
+            <canvas #pieChart></canvas>
+          </div>
+          <div class="chart-wrapper">
+            <canvas #lineChart></canvas>
+          </div>
+        </div>
+
+        <div class="feedback-list">
+          <h3>Recent Feedback</h3>
+          <div class="feedback-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>User Message</th>
+                  <th>Bot Response</th>
+                  <th>Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of feedbackList">
+                  <td>{{ item.timestamp | date:'short' }}</td>
+                  <td>{{ item.message }}</td>
+                  <td>{{ item.response }}</td>
+                  <td>
+                    <i [class]="item.liked ? 'fas fa-thumbs-up text-success' : 'fas fa-thumbs-down text-danger'"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
