@@ -5,6 +5,7 @@ import { TextToSpeechService } from "../services/text-to-speech.service";
 import { ChatMessage } from "../interfaces/chat-message";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { ChatFeedback } from "../../dashboard/chatfeedback";
 
 @Component({
   selector: "app-chatbot",
@@ -103,14 +104,19 @@ export class ChatbotComponent {
     // Find the user message that preceded this bot response
     const messageIndex = this.messages.findIndex(m => m.id === message.id);
     const userMessage = messageIndex > 0 ? this.messages[messageIndex - 1].content : '';
-
-    this.chatService.addFeedback({
+    
+    const feedbackData: ChatFeedback = {
       messageId: message.id,
       message: userMessage,
       response: message.content,
       liked: liked,
       timestamp: new Date()
-    });
+  };
+    this.chatService.addFeedback(feedbackData).subscribe(response => {
+      console.log("Feedback saved:", response);
+  }, error => {
+      console.error("Error saving feedback:", error);
+  });
   }
   
 }

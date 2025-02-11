@@ -16,10 +16,10 @@ export class DashboardComponent implements AfterViewInit {
   @ViewChild('lineChart') private lineChartRef!: ElementRef;
   
   stats = {
-    total: 5,
-    likes: 3,
-    dislikes: 2,
-    likePercentage: 60
+    total: 0,
+    likes: 0,
+    dislikes: 0,
+    likePercentage: 0
   };
   feedbackList: ChatFeedback[] = [];
   private pieChart: Chart | null = null;
@@ -28,7 +28,18 @@ export class DashboardComponent implements AfterViewInit {
   constructor(private chatService: ChatService) {
     this.chatService.getFeedback().subscribe(feedback => {
       this.feedbackList = feedback.slice().reverse();
-      this.stats = this.chatService.getFeedbackStats();
+      this.chatService.getFeedbackStats().subscribe(stats => {
+        this.stats = stats;
+        
+        // Ensure pie chart initializes after data is available
+        if (this.pieChartRef && this.pieChartRef.nativeElement) {
+          if (!this.pieChart) {
+            this.initializeCharts();
+          } else {
+            this.updateCharts();
+          }
+        }
+      });
       this.updateCharts();
     });
   }

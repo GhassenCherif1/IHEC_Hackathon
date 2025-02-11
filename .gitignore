@@ -1,4 +1,4 @@
-.angular
-dist
-node_modules
-chroma
+frontend/.angular
+frontend/dist
+frontend/node_modules
+backend/chroma

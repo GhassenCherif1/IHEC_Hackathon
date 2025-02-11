@@ -18,24 +18,13 @@ export class ChatService {
     console.log(request)
     return this.http.post("http://localhost:8000/chat", request);
   }
-  getFeedback() {
-    return this.feedbackSubject.asObservable();
+  getFeedback(): Observable<ChatFeedback[]> {
+    return this.http.get<ChatFeedback[]>("http://localhost:8000/feedback");
   }
-  addFeedback(feedback: ChatFeedback) {
-    this.feedback.push(feedback);
-    this.feedbackSubject.next(this.feedback);
+  addFeedback(feedback: ChatFeedback): Observable<ChatFeedback> {
+    return this.http.post<ChatFeedback>("http://localhost:8000/feedback", feedback);
   }
-
-  getFeedbackStats() {
-    const total = this.feedback.length;
-    const likes = this.feedback.filter(f => f.liked).length;
-    const dislikes = total - likes;
-    
-    return {
-      total,
-      likes,
-      dislikes,
-      likePercentage: total > 0 ? (likes / total) * 100 : 0
-    };
+  getFeedbackStats(): Observable<{ total: number; likes: number; dislikes: number; likePercentage: number }> {
+    return this.http.get<{ total: number; likes: number; dislikes: number; likePercentage: number }>("http://localhost:8000/feedback/stats");
   }
 }
