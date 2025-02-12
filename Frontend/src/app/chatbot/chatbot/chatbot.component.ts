@@ -5,7 +5,6 @@ import { TextToSpeechService } from "../services/text-to-speech.service";
 import { ChatMessage } from "../interfaces/chat-message";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { ChatFeedback } from "../../dashboard/interfaces/chatfeedback";
 import { ChatFeedbackCreate } from "../../dashboard/interfaces/chatfeedbackcreate";
 
 @Component({
