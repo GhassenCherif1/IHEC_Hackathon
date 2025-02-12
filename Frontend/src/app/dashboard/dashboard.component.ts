@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angula
 import { CommonModule } from '@angular/common';;
 import Chart from 'chart.js/auto';
 import { ChatService } from '../chatbot/services/chat.service';
-import { ChatFeedback } from './chatfeedback';
+import { ChatFeedback } from './interfaces/chatfeedback';
 
 @Component({
   selector: 'app-dashboard',

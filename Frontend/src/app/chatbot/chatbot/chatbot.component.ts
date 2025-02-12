@@ -5,7 +5,8 @@ import { TextToSpeechService } from "../services/text-to-speech.service";
 import { ChatMessage } from "../interfaces/chat-message";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { ChatFeedback } from "../../dashboard/chatfeedback";
+import { ChatFeedback } from "../../dashboard/interfaces/chatfeedback";
+import { ChatFeedbackCreate } from "../../dashboard/interfaces/chatfeedbackcreate";
 
 @Component({
   selector: "app-chatbot",
@@ -105,12 +106,11 @@ export class ChatbotComponent {
     const messageIndex = this.messages.findIndex(m => m.id === message.id);
     const userMessage = messageIndex > 0 ? this.messages[messageIndex - 1].content : '';
     
-    const feedbackData: ChatFeedback = {
-      messageId: message.id,
+    const feedbackData:ChatFeedbackCreate={
+      id: message.id,
       message: userMessage,
       response: message.content,
-      liked: liked,
-      timestamp: new Date()
+      liked: liked
   };
     this.chatService.addFeedback(feedbackData).subscribe(response => {
       console.log("Feedback saved:", response);

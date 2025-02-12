@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ResquestDto } from '../dto/request.dto';
-import { ChatMessage } from '../interfaces/chat-message';
-import { ChatFeedback } from '../../dashboard/chatfeedback';
+import { ChatFeedback } from '../../dashboard/interfaces/chatfeedback';
+import { ChatFeedbackCreate } from '../../dashboard/interfaces/chatfeedbackcreate';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,6 @@ import { ChatFeedback } from '../../dashboard/chatfeedback';
 export class ChatService {
   private http = inject(HttpClient);
   constructor() {}
-  private feedback: ChatFeedback[] = [];
-  private feedbackSubject = new BehaviorSubject<ChatFeedback[]>([]);
 
   getBotResponse(request: ResquestDto[]): Observable<any> {
     console.log(request)
@@ -21,7 +19,7 @@ export class ChatService {
   getFeedback(): Observable<ChatFeedback[]> {
     return this.http.get<ChatFeedback[]>("http://localhost:8000/feedback");
   }
-  addFeedback(feedback: ChatFeedback): Observable<ChatFeedback> {
+  addFeedback(feedback:ChatFeedbackCreate): Observable<ChatFeedback> {
     return this.http.post<ChatFeedback>("http://localhost:8000/feedback", feedback);
   }
   getFeedbackStats(): Observable<{ total: number; likes: number; dislikes: number; likePercentage: number }> {
