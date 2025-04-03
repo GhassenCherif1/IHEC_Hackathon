@@ -1,0 +1,16 @@
+FROM python:3.12.4
+
+# Set the working directory
+WORKDIR /Blog_API
+
+# Copy application files
+COPY . /Blog_API
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose the FastAPI default port
+EXPOSE 8000
+
+# Start the application with Uvicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

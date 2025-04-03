@@ -1,0 +1,10 @@
+fastapi[all]
+pyjwt
+passlib
+sqlmodel
+psycopg2
+langchain
+typing
+httpx
+langchain-community
+datetime
