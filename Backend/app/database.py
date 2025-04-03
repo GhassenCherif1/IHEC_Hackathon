@@ -1,8 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+
+#For local
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123@localhost:5432/fastapi"
 
+#For docker compose
+#SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123@postgres:5432/fastapi"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL,echo=True)
 

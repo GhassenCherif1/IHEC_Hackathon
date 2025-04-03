@@ -1,10 +1,10 @@
 FROM python:3.12.4
 
 # Set the working directory
-WORKDIR /Blog_API
+WORKDIR /IHEC_Chatbot
 
 # Copy application files
-COPY . /Blog_API
+COPY . /IHEC_Chatbot
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt

@@ -1,8 +1,7 @@
 from langchain.vectorstores.chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_community.llms.ollama import Ollama
-from . import schemas
-from . import get_embedding_function
+from . import schemas ,get_embedding_function
 from typing import List
 import httpx
 CHROMA_PATH = "chroma"

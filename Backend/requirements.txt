@@ -8,3 +8,4 @@ typing
 httpx
 langchain-community
 datetime
+chromadb

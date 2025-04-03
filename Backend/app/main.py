@@ -1,9 +1,7 @@
-from . import schemas
+from . import schemas, query_data, models
 from fastapi import FastAPI , Depends
-from . import query_data
 from sqlalchemy.orm import Session
 from typing import List
-from . import models, schemas
 from fastapi.middleware.cors import CORSMiddleware
 from .database import get_db
 from .database import engine
@@ -11,10 +9,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Autorise toutes les origines (tu peux restreindre à ["http://localhost:4200"])
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Autorise toutes les méthodes HTTP
-    allow_headers=["*"],  # Autorise tous les headers
+    allow_methods=["*"],
+    allow_headers=["*"], 
 )
 # Create tables
 models.Base.metadata.create_all(bind=engine)
