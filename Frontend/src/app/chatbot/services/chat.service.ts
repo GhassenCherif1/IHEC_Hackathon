@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ResquestDto } from '../dto/request.dto';
 import { ChatFeedback } from '../../dashboard/interfaces/chatfeedback';
 import { ChatFeedbackCreate } from '../../dashboard/interfaces/chatfeedbackcreate';
+import { API } from '../../../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +15,15 @@ export class ChatService {
 
   getBotResponse(request: ResquestDto[]): Observable<any> {
     console.log(request)
-    return this.http.post("http://localhost:8000/chat", request);
+    return this.http.post(API.chat, request);
   }
   getFeedback(): Observable<ChatFeedback[]> {
-    return this.http.get<ChatFeedback[]>("http://localhost:8000/feedback");
+    return this.http.get<ChatFeedback[]>(API.feedback);
   }
   addFeedback(feedback:ChatFeedbackCreate): Observable<ChatFeedback> {
-    return this.http.post<ChatFeedback>("http://localhost:8000/feedback", feedback);
+    return this.http.post<ChatFeedback>(API.feedback, feedback);
   }
   getFeedbackStats(): Observable<{ total: number; likes: number; dislikes: number; likePercentage: number }> {
-    return this.http.get<{ total: number; likes: number; dislikes: number; likePercentage: number }>("http://localhost:8000/feedback/stats");
+    return this.http.get<{ total: number; likes: number; dislikes: number; likePercentage: number }>(API.feedbackStats);
   }
 }
