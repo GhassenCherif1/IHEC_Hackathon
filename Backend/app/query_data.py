@@ -29,7 +29,10 @@ async def query_rag(chatmessages : List[schemas.ChatMessage]):
     prompt = prompt_template.format(context=context_text, question=query_text)
     # print(prompt)
     chatmessages[-1].content = prompt
-    url = "http://localhost:11434/api/chat"
+    #local
+    #url = "http://localhost:11434/api/chat"
+    #docker
+    url = "http://host.docker.internal:11434/api/chat"
     payload = {"messages": [msg.model_dump() for msg in chatmessages], "model":"finellama", "stream": False}
 
     async with httpx.AsyncClient() as client:
